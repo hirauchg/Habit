@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#F57C00</color>
+    <color name="colorPrimaryDark">#BB4D00</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorMonthBg">#820A0A</color>
+    <color name="colorWeekBg">#AE4104</color>
+    <color name="colorThisMonthSunText">#FF0000</color>
+    <color name="colorOtherMonthSunText">#4DFF0000</color>
+    <color name="colorThisMonthSatText">#0000FF</color>
+    <color name="colorOtherMonthSatText">#4D0000FF</color>
+    <color name="colorArrow">#FFFFFF</color>
+    <color name="colorCheck">#64dd17</color>
+    <color name="colorSkip">#888888</color>
 </resources>
