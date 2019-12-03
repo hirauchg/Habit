@@ -1,3 +1,29 @@
 <resources>
-    <string name="app_name">Habit</string>
+    <!-- Common -->
+    <string name="app_name">強化の法則</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="habit_start_date">yy/MM/dd〜</string>
+    <string name="habit_achievement_rate">%1$d％</string>
+    <string name="habit_continued_days">%1$d日</string>
+
+    <!-- HabitList -->
+    <string name="menu_app_info">アプリ情報</string>
+    <string name="add_abit_title">習慣の追加</string>
+    <string name="add_habit_message">追加したい習慣名を入力してください。</string>
+    <string name="edit_habit_title">習慣名の編集</string>
+    <string name="delete_habit_title">習慣の削除</string>
+    <string name="delete_habit_message">「%1$s」を削除しますか？</string>
+
+    <!-- HabitCalendar -->
+    <string name="habit_start_date_title">開始日：</string>
+    <string name="habit_achievement_rate_title">達成率：</string>
+    <string name="habit_continued_days_title">継続日数：</string>
+    <string name="calendar_sun">日</string>
+    <string name="calendar_mon">月</string>
+    <string name="calendar_tue">火</string>
+    <string name="calendar_wed">水</string>
+    <string name="calendar_thu">木</string>
+    <string name="calendar_fri">金</string>
+    <string name="calendar_sat">土</string>
 </resources>
