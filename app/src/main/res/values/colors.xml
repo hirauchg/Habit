@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#BB4D00</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorText1">#000000</color>
+    <color name="colorText2">#80000000</color>
+
     <color name="colorMonthBg">#820A0A</color>
     <color name="colorWeekBg">#AE4104</color>
     <color name="colorThisMonthSunText">#FF0000</color>
