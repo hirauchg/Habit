@@ -109,7 +109,15 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onDeleteClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onDeleteClicked(habit: Habit) {
+        AlertDialog.Builder(mContext)
+                .setTitle(R.string.delete_habit_title)
+                .setMessage(getString(R.string.delete_habit_message, habit.name))
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok, { dialog, which ->
+                    mHabitViewModel.delete(habit)
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show()
     }
 }

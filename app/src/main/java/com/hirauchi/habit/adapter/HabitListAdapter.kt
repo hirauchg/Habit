@@ -21,7 +21,7 @@ class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter)
         fun onCardClicked()
         fun onNameClicked(habit: Habit)
         fun onIconClicked()
-        fun onDeleteClicked()
+        fun onDeleteClicked(habit: Habit)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,7 +50,7 @@ class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter)
         }
 
         holder.delete.setOnClickListener {
-            mListener.onDeleteClicked()
+            mListener.onDeleteClicked(habit)
         }
 
         // TODO
