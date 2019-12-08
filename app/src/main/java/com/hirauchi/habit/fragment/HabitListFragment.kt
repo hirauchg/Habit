@@ -20,21 +20,6 @@ import com.hirauchi.habit.database.entity.Habit
 import com.hirauchi.habit.database.viewModel.HabitViewModel
 
 class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
-    override fun onCardClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onNameClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onIconClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onDeleteClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private lateinit var mContext: Context
     private lateinit var mHabitListAdapter: HabitListAdapter
@@ -91,5 +76,40 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show()
+    }
+
+    override fun onCardClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onNameClicked(habit: Habit) {
+        val view = LinearLayout(mContext)
+        val editText = EditText(mContext)
+        editText.setText(habit.name)
+        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        params.setMargins(40, 0, 40, 0)
+        view.addView(editText, params)
+
+        AlertDialog.Builder(mContext)
+                .setTitle(R.string.edit_habit_title)
+                .setCancelable(false)
+                .setView(view)
+                .setPositiveButton(R.string.ok, { dialog, which ->
+                    val name = editText.text.toString()
+                    if (name.trim().isEmpty()) return@setPositiveButton
+
+                    habit.name = name
+                    mHabitViewModel.update(habit)
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show()
+    }
+
+    override fun onIconClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDeleteClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

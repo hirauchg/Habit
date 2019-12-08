@@ -19,7 +19,7 @@ class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter)
 
     interface OnHabitListAdapter {
         fun onCardClicked()
-        fun onNameClicked()
+        fun onNameClicked(habit: Habit)
         fun onIconClicked()
         fun onDeleteClicked()
     }
@@ -46,7 +46,7 @@ class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter)
 
         holder.name.text = mHabitList.get(position).name
         holder.name.setOnClickListener {
-            mListener.onNameClicked()
+            mListener.onNameClicked(habit)
         }
 
         holder.delete.setOnClickListener {
