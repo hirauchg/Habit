@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="12dp"
@@ -54,14 +55,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp">
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/start_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="19/11/11〜"
                     android:textColor="@color/colorText2"/>
 
                 <TextView
@@ -69,7 +70,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="90%"
                     android:textColor="@color/colorText2"
                     android:textAlignment="textEnd"/>
 
@@ -78,7 +78,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="10日"
                     android:textColor="@color/colorText2"
                     android:textAlignment="textEnd"/>
 

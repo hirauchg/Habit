@@ -1,7 +1,6 @@
 package com.hirauchi.habit.fragment
 
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +19,25 @@ import com.hirauchi.habit.adapter.HabitListAdapter
 import com.hirauchi.habit.database.entity.Habit
 import com.hirauchi.habit.database.viewModel.HabitViewModel
 
-class HabitListFragment : Fragment() {
+class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
+    override fun onCardClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onNameClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onIconClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDeleteClicked() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private lateinit var mContext: Context
-
-    private val mHabitListAdapter = HabitListAdapter()
-
+    private lateinit var mHabitListAdapter: HabitListAdapter
     private lateinit var mHabitViewModel: HabitViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,6 +63,7 @@ class HabitListFragment : Fragment() {
     private fun setupView(view: View) {
         val recyclerView : RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.setLayoutManager(LinearLayoutManager(mContext))
+        mHabitListAdapter = HabitListAdapter(mContext, this)
         recyclerView.setAdapter(mHabitListAdapter)
 
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
@@ -74,7 +87,7 @@ class HabitListFragment : Fragment() {
                     val name = editText.text.toString()
                     if (name.trim().isEmpty()) return@setPositiveButton
 
-                    mHabitViewModel.insert(Habit(0, name, "ic_asdf", System.currentTimeMillis()))
+                    mHabitViewModel.insert(Habit(0, name, R.drawable.ic_time, System.currentTimeMillis()))
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show()

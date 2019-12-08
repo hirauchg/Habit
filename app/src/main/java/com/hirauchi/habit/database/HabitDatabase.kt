@@ -24,7 +24,7 @@ abstract class HabitDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     HabitDatabase::class.java,
-                    "habit1_database"
+                    "habit2_database"
                 ).build()
                 INSTANCE = instance
                 instance

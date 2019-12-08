@@ -9,6 +9,6 @@ data class Habit(
     val id: Int,
 
     val name: String,
-    val icon: String,
+    val icon: Int,
     val start: Long
 )

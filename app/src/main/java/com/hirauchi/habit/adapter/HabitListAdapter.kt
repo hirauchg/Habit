@@ -1,16 +1,28 @@
 package com.hirauchi.habit.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.hirauchi.habit.R
 import com.hirauchi.habit.database.entity.Habit
+import java.text.SimpleDateFormat
+import java.util.*
 
-class HabitListAdapter: RecyclerView.Adapter<HabitListAdapter.ViewHolder>() {
+class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter): RecyclerView.Adapter<HabitListAdapter.ViewHolder>() {
 
     private var mHabitList: List<Habit> = ArrayList()
+
+    interface OnHabitListAdapter {
+        fun onCardClicked()
+        fun onNameClicked()
+        fun onIconClicked()
+        fun onDeleteClicked()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_habit, parent, false))
@@ -21,7 +33,30 @@ class HabitListAdapter: RecyclerView.Adapter<HabitListAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = mHabitList.get(position).name
+        val habit = mHabitList.get(position)
+
+        holder.card.setOnClickListener {
+            mListener.onCardClicked()
+        }
+
+        holder.icon.setImageResource(habit.icon)
+        holder.icon.setOnClickListener {
+            mListener.onIconClicked()
+        }
+
+        holder.name.text = mHabitList.get(position).name
+        holder.name.setOnClickListener {
+            mListener.onNameClicked()
+        }
+
+        holder.delete.setOnClickListener {
+            mListener.onDeleteClicked()
+        }
+
+        // TODO
+        holder.startDate.text = SimpleDateFormat(mContext.getString(R.string.habit_start_date), Locale.US).format(Date(habit.start))
+        holder.achievementRate.text = mContext.getString(R.string.habit_achievement_rate, 90)
+        holder.continuedDays.text = mContext.getString(R.string.habit_continued_days, 0)
     }
 
     fun setHabitList(habitList: List<Habit>) {
@@ -30,6 +65,13 @@ class HabitListAdapter: RecyclerView.Adapter<HabitListAdapter.ViewHolder>() {
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.name)
+        val card: CardView = view.findViewById(R.id.card)
+        val icon: ImageView = view.findViewById(R.id.icon)
+        val name: TextView = view.findViewById(R.id.name)
+        val delete: ImageView = view.findViewById(R.id.delete)
+        val startDate: TextView = view.findViewById(R.id.start_date)
+        val achievementRate: TextView = view.findViewById(R.id.achievement_rate)
+        val continuedDays: TextView = view.findViewById(R.id.continued_days)
+
     }
 }
