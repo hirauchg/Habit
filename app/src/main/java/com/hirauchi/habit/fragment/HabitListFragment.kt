@@ -1,10 +1,14 @@
 package com.hirauchi.habit.fragment
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -50,7 +54,29 @@ class HabitListFragment : Fragment() {
         recyclerView.setAdapter(mHabitListAdapter)
 
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            mHabitViewModel.insert(Habit(0, "habit", "ic_asdf", System.currentTimeMillis()))
+            showAddHabitDialog()
         }
+    }
+
+    private fun showAddHabitDialog() {
+        val view = LinearLayout(mContext)
+        val editText = EditText(mContext)
+        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        params.setMargins(40, 0, 40, 0)
+        view.addView(editText, params)
+
+        AlertDialog.Builder(mContext)
+                .setTitle(R.string.add_abit_title)
+                .setMessage(R.string.add_habit_message)
+                .setCancelable(false)
+                .setView(view)
+                .setPositiveButton(R.string.ok, { dialog, which ->
+                    val name = editText.text.toString()
+                    if (name.trim().isEmpty()) return@setPositiveButton
+
+                    mHabitViewModel.insert(Habit(0, name, "ic_asdf", System.currentTimeMillis()))
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show()
     }
 }
