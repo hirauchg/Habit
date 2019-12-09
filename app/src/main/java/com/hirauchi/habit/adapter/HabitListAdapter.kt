@@ -20,7 +20,7 @@ class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter)
     interface OnHabitListAdapter {
         fun onCardClicked()
         fun onNameClicked(habit: Habit)
-        fun onIconClicked()
+        fun onIconClicked(habit: Habit)
         fun onDeleteClicked(habit: Habit)
     }
 
@@ -41,7 +41,7 @@ class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter)
 
         holder.icon.setImageResource(habit.icon)
         holder.icon.setOnClickListener {
-            mListener.onIconClicked()
+            mListener.onIconClicked(habit)
         }
 
         holder.name.text = mHabitList.get(position).name
