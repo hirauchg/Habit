@@ -8,7 +8,7 @@ data class Habit(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
 
-    val name: String,
-    val icon: String,
+    var name: String,
+    var icon: Int,
     val start: Long
 )

@@ -6,8 +6,11 @@ import com.hirauchi.habit.database.entity.Record
 
 @Dao
 interface RecordDao {
-    @Query("SELECT * FROM record WHERE habitId = :habitId")
-    fun getRecordList(habitId: Int): LiveData<List<Record>>
+    @Query("SELECT * FROM record WHERE habitId = :habitId ORDER BY date ASC")
+    fun getLiveDataRecordList(habitId: Int): LiveData<List<Record>>
+
+    @Query("SELECT * FROM record WHERE habitId = :habitId ORDER BY date DESC")
+    fun getRecordList(habitId: Int): List<Record>
 
     @Insert
     fun insert(record: Record)

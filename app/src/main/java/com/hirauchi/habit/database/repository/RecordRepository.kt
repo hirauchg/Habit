@@ -6,7 +6,11 @@ import com.hirauchi.habit.database.dao.RecordDao
 import com.hirauchi.habit.database.entity.Record
 
 class RecordRepository(private val recordDao: RecordDao, habitId: Int){
-    val recordList: LiveData<List<Record>> = recordDao.getRecordList(habitId)
+    val recordList: LiveData<List<Record>> = recordDao.getLiveDataRecordList(habitId)
+
+    fun getRecordList(habitId: Int) : List<Record> {
+        return recordDao.getRecordList(habitId)
+    }
 
     @WorkerThread
     fun insert(record: Record) {
