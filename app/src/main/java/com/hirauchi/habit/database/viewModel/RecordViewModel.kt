@@ -34,6 +34,10 @@ class RecordViewModel(application: Application, habitId: Int): AndroidViewModel(
         parentJob.cancel()
     }
 
+    fun getRecordList(habitId: Int) : List<Record>  {
+        return repository.getRecordList(habitId)
+    }
+
     fun insert(record: Record) = scope.launch(Dispatchers.IO){
         repository.insert(record)
     }

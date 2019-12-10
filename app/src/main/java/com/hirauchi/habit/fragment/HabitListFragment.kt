@@ -57,91 +57,92 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
     private fun setupView(view: View) {
         val recyclerView : RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.setLayoutManager(LinearLayoutManager(mContext))
-        mHabitListAdapter = HabitListAdapter(mContext, this)
+        mHabitListAdapter = HabitListAdapter(mContext, this, this)
         recyclerView.setAdapter(mHabitListAdapter)
 
         view.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
-            showAddHabitDialog()
+            showInputNameDialog()
         }
     }
 
-    private fun showAddHabitDialog() {
-        val view = LinearLayout(mContext)
-        val editText = EditText(mContext)
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        params.setMargins(dpToPx(24), 0, dpToPx(24), 0)
-        view.addView(editText, params)
+    override fun onCardClicked(habit: Habit) {
 
-        AlertDialog.Builder(mContext)
-                .setTitle(R.string.add_abit_title)
-                .setMessage(R.string.add_habit_message)
-                .setCancelable(false)
-                .setView(view)
-                .setPositiveButton(R.string.ok, { _, _ ->
-                    val name = editText.text.toString()
-                    if (name.trim().isEmpty()) return@setPositiveButton
-
-                    mHabitViewModel.insert(Habit(0, name, R.drawable.ic_fitness, System.currentTimeMillis()))
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .show()
-    }
-
-    override fun onCardClicked() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onNameClicked(habit: Habit) {
-        val view = LinearLayout(mContext)
+        showInputNameDialog(habit)
+    }
+
+    private fun showInputNameDialog(habit: Habit? = null) {
+        var title = getString(R.string.add_abit_title)
+        var message: String? = getString(R.string.add_habit_message)
+
         val editText = EditText(mContext)
-        editText.setText(habit.name)
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        params.setMargins(dpToPx(24), 0, dpToPx(24), 0)
-        view.addView(editText, params)
+        habit?.let {
+            editText.setText(it.name)
+            title = getString(R.string.edit_habit_title)
+            message = null
+        }
+
+        val linearLayout = LinearLayout(mContext).apply {
+            val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                setMargins(dpToPx(24), 0, dpToPx(24), 0)
+            }
+            addView(editText, params)
+        }
 
         AlertDialog.Builder(mContext)
-                .setTitle(R.string.edit_habit_title)
-                .setCancelable(false)
-                .setView(view)
-                .setPositiveButton(R.string.ok, { dialog, which ->
-                    val name = editText.text.toString()
-                    if (name.trim().isEmpty()) return@setPositiveButton
+            .setTitle(title).setMessage(message).setCancelable(false).setView(linearLayout)
+            .setPositiveButton(R.string.ok, { _, _ ->
+                val name = editText.text.toString()
+                if (name.trim().isEmpty()) return@setPositiveButton
 
-                    habit.name = name
-                    mHabitViewModel.update(habit)
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .show()
+                habit?.also {
+                    it.name = name
+                    mHabitViewModel.update(it)
+                } ?: run {
+                    mHabitViewModel.insert(Habit(0, name, R.drawable.ic_fitness, System.currentTimeMillis()))
+                }
+            })
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     override fun onIconClicked(habit: Habit) {
         lateinit var alertDialog: AlertDialog
-        val container = LinearLayout(mContext)
-        container.orientation = LinearLayout.VERTICAL
-        container.setPadding(dpToPx(10), dpToPx(10), dpToPx(10), 0)
 
-        for (row in 0..3) {
-            val rowRayout = LinearLayout(mContext)
-            rowRayout.orientation = LinearLayout.HORIZONTAL
-            val rowRayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            rowRayoutParams.topMargin = dpToPx(10)
-            rowRayout.layoutParams = rowRayoutParams
-            for (col in 0..3) {
-                val imageView = ImageView(mContext)
-                imageView.setOnClickListener {
-                    habit.icon = mHabitIcons[row][col]
-                    mHabitViewModel.update(habit)
-                    alertDialog.dismiss()
+        val container = LinearLayout(mContext).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(dpToPx(10), dpToPx(10), dpToPx(10), 0)
+
+            for (row in 0..3) {
+                val rowRayout = LinearLayout(mContext).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    val rowRayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                    rowRayoutParams.topMargin = dpToPx(10)
+                    layoutParams = rowRayoutParams
+
+                    for (col in 0..3) {
+                        val imageView = ImageView(mContext).apply {
+                            setImageResource(mHabitIcons[row][col])
+                            setOnClickListener {
+                                habit.icon = mHabitIcons[row][col]
+                                mHabitViewModel.update(habit)
+                                alertDialog.dismiss()
+                            }
+                            if (mHabitIcons[row][col].equals(habit.icon)) {
+                                isEnabled = false
+                                alpha = 0.3F
+                            }
+                            layoutParams = LinearLayout.LayoutParams(dpToPx(56), dpToPx(56), 1F)
+                        }
+
+                        addView(imageView)
+                    }
                 }
-                imageView.setImageResource(mHabitIcons[row][col])
-                if (mHabitIcons[row][col].equals(habit.icon)) {
-                    imageView.isEnabled = false
-                    imageView.alpha = 0.3F
-                }
-                imageView.layoutParams = LinearLayout.LayoutParams(dpToPx(56), dpToPx(56), 1F)
-                rowRayout.addView(imageView)
+
+                addView(rowRayout)
             }
-            container.addView(rowRayout)
         }
 
         alertDialog = AlertDialog.Builder(mContext)
@@ -149,11 +150,6 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
             .setView(container)
             .setNegativeButton(R.string.cancel, null)
             .show()
-    }
-
-    fun dpToPx(dp: Int): Int {
-        val displayMetrics = mContext.resources.displayMetrics
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
     }
 
     override fun onDeleteClicked(habit: Habit) {
@@ -166,5 +162,10 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show()
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val displayMetrics = mContext.resources.displayMetrics
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
     }
 }

@@ -7,18 +7,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.hirauchi.habit.R
 import com.hirauchi.habit.database.entity.Habit
+import com.hirauchi.habit.database.viewModel.RecordViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter): RecyclerView.Adapter<HabitListAdapter.ViewHolder>() {
+class HabitListAdapter(val mContext: Context, val mFragment: Fragment, val mListener: OnHabitListAdapter): RecyclerView.Adapter<HabitListAdapter.ViewHolder>() {
 
     private var mHabitList: List<Habit> = ArrayList()
 
     interface OnHabitListAdapter {
-        fun onCardClicked()
+        fun onCardClicked(habit: Habit)
         fun onNameClicked(habit: Habit)
         fun onIconClicked(habit: Habit)
         fun onDeleteClicked(habit: Habit)
@@ -35,28 +38,72 @@ class HabitListAdapter(val mContext: Context, val mListener: OnHabitListAdapter)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val habit = mHabitList.get(position)
 
-        holder.card.setOnClickListener {
-            mListener.onCardClicked()
-        }
+        holder.apply {
+            card.setOnClickListener {
+                mListener.onCardClicked(habit)
+            }
 
-        holder.icon.setImageResource(habit.icon)
-        holder.icon.setOnClickListener {
-            mListener.onIconClicked(habit)
-        }
+            icon.apply {
+                setImageResource(habit.icon)
+                setOnClickListener {
+                    mListener.onIconClicked(habit)
+                }
+            }
 
-        holder.name.text = mHabitList.get(position).name
-        holder.name.setOnClickListener {
-            mListener.onNameClicked(habit)
-        }
+            name.apply {
+                text = mHabitList.get(position).name
+                setOnClickListener {
+                    mListener.onNameClicked(habit)
+                }
+            }
 
-        holder.delete.setOnClickListener {
-            mListener.onDeleteClicked(habit)
-        }
+            delete.setOnClickListener {
+                mListener.onDeleteClicked(habit)
+            }
 
-        // TODO
-        holder.startDate.text = SimpleDateFormat(mContext.getString(R.string.habit_start_date), Locale.US).format(Date(habit.start))
-        holder.achievementRate.text = mContext.getString(R.string.habit_achievement_rate, 90)
-        holder.continuedDays.text = mContext.getString(R.string.habit_continued_days, 0)
+            val recordViewModel = ViewModelProviders.of(mFragment, RecordViewModel.Factory(mFragment.activity!!.application, habit.id)).get(RecordViewModel::class.java)
+            val recordList = recordViewModel.getRecordList(habit.id)
+            if (recordList.isEmpty()) {
+                startDate.text = SimpleDateFormat(mContext.getString(R.string.habit_start_date), Locale.US).format(Date(habit.start))
+                achievementRate.text = mContext.getString(R.string.habit_achievement_rate, 0)
+                continuedDays.text = mContext.getString(R.string.habit_continued_days, 0)
+            } else {
+                startDate.text = SimpleDateFormat(mContext.getString(R.string.habit_start_date), Locale.US).format(Date(recordList.last().date))
+                continuedDays.text = mContext.getString(R.string.habit_continued_days, 0)
+
+                var beforeCalendar = Calendar.getInstance().apply {
+                    clear(Calendar.MINUTE)
+                    clear(Calendar.SECOND)
+                    clear(Calendar.MILLISECOND)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                }
+
+                for (i in 0..recordList.size - 1) {
+                    val nextCalendar = Calendar.getInstance().apply {
+                        timeInMillis = recordList[i].date
+                        clear(Calendar.MINUTE)
+                        clear(Calendar.SECOND)
+                        clear(Calendar.MILLISECOND)
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        add(Calendar.DAY_OF_MONTH, 1)
+                    }
+
+                    if (nextCalendar.before(beforeCalendar) || i == recordList.size - 1) {
+                        continuedDays.text = mContext.getString(R.string.habit_continued_days, i + 1)
+                        break
+                    }
+
+                    nextCalendar.add(Calendar.DAY_OF_MONTH, -1)
+                    beforeCalendar = nextCalendar
+                }
+
+                val start = recordList.last().date
+                val last = System.currentTimeMillis()
+                val diff = (last - start) / (1000 * 60 * 60 * 24) + 1
+                val rate = ((recordList.size.toDouble() / diff.toDouble()) * 100).toInt()
+                achievementRate.text = mContext.getString(R.string.habit_achievement_rate, rate)
+            }
+        }
     }
 
     fun setHabitList(habitList: List<Habit>) {
