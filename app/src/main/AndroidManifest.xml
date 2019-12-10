@@ -26,6 +26,9 @@
         <activity
             android:name="com.hirauchi.appinfo.AppInfoActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.RecordActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

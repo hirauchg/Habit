@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +46,7 @@ class HabitListAdapter(val mContext: Context, val mFragment: Fragment, val mList
 
             icon.apply {
                 setImageResource(habit.icon)
+                setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary))
                 setOnClickListener {
                     mListener.onIconClicked(habit)
                 }

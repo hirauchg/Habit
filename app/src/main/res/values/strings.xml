@@ -15,7 +15,7 @@
     <string name="delete_habit_title">習慣の削除</string>
     <string name="delete_habit_message">「%1$s」を削除しますか？</string>
 
-    <!-- HabitCalendar -->
+    <!-- Record -->
     <string name="habit_start_date_title">開始日：</string>
     <string name="habit_achievement_rate_title">達成率：</string>
     <string name="habit_continued_days_title">継続日数：</string>

@@ -2,6 +2,7 @@ package com.hirauchi.habit.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class Habit(
@@ -11,4 +12,4 @@ data class Habit(
     var name: String,
     var icon: Int,
     val start: Long
-)
+): Serializable

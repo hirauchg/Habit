@@ -1,6 +1,7 @@
 package com.hirauchi.habit.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,9 @@ import com.hirauchi.habit.adapter.HabitListAdapter
 import com.hirauchi.habit.database.entity.Habit
 import com.hirauchi.habit.database.viewModel.HabitViewModel
 import android.util.DisplayMetrics
+import androidx.core.content.ContextCompat
+import com.hirauchi.habit.Constants
+import com.hirauchi.habit.activity.RecordActivity
 
 class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
 
@@ -66,7 +70,9 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
     }
 
     override fun onCardClicked(habit: Habit) {
-
+        val intent = Intent(mContext, RecordActivity::class.java)
+        intent.putExtra(Constants.KEY_HABIT, habit)
+        startActivity(intent)
     }
 
     override fun onNameClicked(habit: Habit) {
@@ -125,6 +131,7 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
                     for (col in 0..3) {
                         val imageView = ImageView(mContext).apply {
                             setImageResource(mHabitIcons[row][col])
+                            setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary))
                             setOnClickListener {
                                 habit.icon = mHabitIcons[row][col]
                                 mHabitViewModel.update(habit)
