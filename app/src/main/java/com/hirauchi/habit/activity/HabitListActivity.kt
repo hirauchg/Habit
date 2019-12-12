@@ -5,7 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.hirauchi.appinfo.AppInfoActivity
+import com.hirauchi.appinfolibrary.AppInfoActivity
 import com.hirauchi.habit.R
 import com.hirauchi.habit.fragment.HabitListFragment
 
