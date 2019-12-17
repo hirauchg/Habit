@@ -4,6 +4,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="habit_start_date">yy/MM/dd〜</string>
+    <string name="habit_start_date_none">ー</string>
     <string name="habit_achievement_rate">%1$d％</string>
     <string name="habit_continued_days">%1$d日</string>
 
@@ -15,10 +16,12 @@
     <string name="delete_habit_title">習慣の削除</string>
     <string name="delete_habit_message">「%1$s」を削除しますか？</string>
 
-    <!-- HabitCalendar -->
+    <!-- Record -->
     <string name="habit_start_date_title">開始日：</string>
     <string name="habit_achievement_rate_title">達成率：</string>
     <string name="habit_continued_days_title">継続日数：</string>
+    <string name="calendar_month_format">yyyy/MM</string>
+    <string name="calendar_today">今日</string>
     <string name="calendar_sun">日</string>
     <string name="calendar_mon">月</string>
     <string name="calendar_tue">火</string>

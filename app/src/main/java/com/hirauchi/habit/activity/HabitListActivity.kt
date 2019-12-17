@@ -1,18 +1,18 @@
 package com.hirauchi.habit.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.hirauchi.appinfo.AppInfoActivity
+import com.hirauchi.appinfolibrary.AppInfoActivity
 import com.hirauchi.habit.R
 import com.hirauchi.habit.fragment.HabitListFragment
 
 class HabitListActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setContentView(@LayoutRes layoutResID: Int) {
+        delegate.setContentView(R.layout.activity_habit_list)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -27,12 +27,8 @@ class HabitListActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun setBackButton(): Boolean {
-        return false
-    }
-
-    override fun setTitle(): String {
-        return getString(R.string.app_name)
+    override fun setUpToolbar() {
+        supportActionBar?.setTitle(R.string.app_name)
     }
 
     override fun setFragment(): Fragment {

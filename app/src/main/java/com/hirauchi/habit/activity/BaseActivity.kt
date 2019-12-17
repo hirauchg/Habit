@@ -1,5 +1,6 @@
 package com.hirauchi.habit.activity
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -12,15 +13,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected lateinit var mFragment: Fragment
 
-    lateinit var mAdView: AdView
+    private lateinit var mAdView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(setBackButton())
-
-        title = setTitle()
+        setSupportActionBar(findViewById(R.id.tool_bar))
+        setUpToolbar()
 
         mFragment = setFragment()
         showFragment()
@@ -32,13 +32,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        setResult(Activity.RESULT_OK)
         onBackPressed()
         return super.onSupportNavigateUp()
     }
 
-    abstract fun setBackButton(): Boolean
-
-    abstract fun setTitle(): String
+    abstract fun setUpToolbar()
 
     abstract fun setFragment(): Fragment
 

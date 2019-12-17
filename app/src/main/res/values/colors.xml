@@ -9,11 +9,11 @@
 
     <color name="colorMonthBg">#820A0A</color>
     <color name="colorWeekBg">#AE4104</color>
+    <color name="colorDateBg">#F1F1F1</color>
     <color name="colorThisMonthSunText">#FF0000</color>
     <color name="colorOtherMonthSunText">#4DFF0000</color>
     <color name="colorThisMonthSatText">#0000FF</color>
     <color name="colorOtherMonthSatText">#4D0000FF</color>
-    <color name="colorArrow">#FFFFFF</color>
     <color name="colorCheck">#64dd17</color>
     <color name="colorSkip">#888888</color>
 </resources>
