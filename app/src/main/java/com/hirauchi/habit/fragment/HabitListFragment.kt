@@ -72,7 +72,12 @@ class HabitListFragment : Fragment(), HabitListAdapter.OnHabitListAdapter {
     override fun onCardClicked(habit: Habit) {
         val intent = Intent(mContext, RecordActivity::class.java)
         intent.putExtra(Constants.KEY_HABIT, habit)
-        startActivity(intent)
+        startActivityForResult(intent, Constants.REQUEST_CODE_RECORD)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        mHabitListAdapter.notifyDataSetChanged()
     }
 
     override fun onNameClicked(habit: Habit) {

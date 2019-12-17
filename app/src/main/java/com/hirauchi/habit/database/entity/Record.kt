@@ -9,6 +9,6 @@ data class Record(
     val id: Int,
 
     val habitId: Int,
-    val status: Int,
+    var status: Int,
     val date: Long
 )

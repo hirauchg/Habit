@@ -1,5 +1,6 @@
 package com.hirauchi.habit.activity
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.hirauchi.habit.Constants
@@ -23,6 +24,6 @@ class RecordActivity : BaseActivity() {
     }
 
     override fun setFragment(): Fragment {
-        return RecordFragment()
+        return RecordFragment.newInstance(mHabit.id)
     }
 }

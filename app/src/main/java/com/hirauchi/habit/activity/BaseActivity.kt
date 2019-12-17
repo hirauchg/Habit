@@ -1,5 +1,6 @@
 package com.hirauchi.habit.activity
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        setResult(Activity.RESULT_OK)
         onBackPressed()
         return super.onSupportNavigateUp()
     }

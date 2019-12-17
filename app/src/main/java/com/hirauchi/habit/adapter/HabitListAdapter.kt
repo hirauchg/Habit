@@ -66,18 +66,20 @@ class HabitListAdapter(val mContext: Context, val mFragment: Fragment, val mList
             val recordViewModel = ViewModelProviders.of(mFragment, RecordViewModel.Factory(mFragment.activity!!.application, habit.id)).get(RecordViewModel::class.java)
             val recordList = recordViewModel.getRecordList(habit.id)
             if (recordList.isEmpty()) {
-                startDate.text = SimpleDateFormat(mContext.getString(R.string.habit_start_date), Locale.US).format(Date(habit.start))
+                startDate.text = mContext.getString(R.string.habit_start_date_none)
                 achievementRate.text = mContext.getString(R.string.habit_achievement_rate, 0)
                 continuedDays.text = mContext.getString(R.string.habit_continued_days, 0)
             } else {
                 startDate.text = SimpleDateFormat(mContext.getString(R.string.habit_start_date), Locale.US).format(Date(recordList.last().date))
                 continuedDays.text = mContext.getString(R.string.habit_continued_days, 0)
 
+                var last = 0L
                 var beforeCalendar = Calendar.getInstance().apply {
                     clear(Calendar.MINUTE)
                     clear(Calendar.SECOND)
                     clear(Calendar.MILLISECOND)
                     set(Calendar.HOUR_OF_DAY, 0)
+                    last = timeInMillis
                 }
 
                 for (i in 0..recordList.size - 1) {
@@ -87,20 +89,28 @@ class HabitListAdapter(val mContext: Context, val mFragment: Fragment, val mList
                         clear(Calendar.SECOND)
                         clear(Calendar.MILLISECOND)
                         set(Calendar.HOUR_OF_DAY, 0)
-                        add(Calendar.DAY_OF_MONTH, 1)
                     }
 
-                    if (nextCalendar.before(beforeCalendar) || i == recordList.size - 1) {
-                        continuedDays.text = mContext.getString(R.string.habit_continued_days, i + 1)
+                    if (nextCalendar.before(beforeCalendar)) {
+                        continuedDays.text = mContext.getString(R.string.habit_continued_days, i)
                         break
+                    } else if (i == recordList.size - 1) {
+                        continuedDays.text = mContext.getString(R.string.habit_continued_days, i + 1)
                     }
 
                     nextCalendar.add(Calendar.DAY_OF_MONTH, -1)
                     beforeCalendar = nextCalendar
                 }
 
-                val start = recordList.last().date
-                val last = System.currentTimeMillis()
+                val c = Calendar.getInstance().apply {
+                    timeInMillis = recordList.last().date
+                    clear(Calendar.MINUTE)
+                    clear(Calendar.SECOND)
+                    clear(Calendar.MILLISECOND)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                }
+
+                val start = c.timeInMillis
                 val diff = (last - start) / (1000 * 60 * 60 * 24) + 1
                 val rate = ((recordList.size.toDouble() / diff.toDouble()) * 100).toInt()
                 achievementRate.text = mContext.getString(R.string.habit_achievement_rate, rate)

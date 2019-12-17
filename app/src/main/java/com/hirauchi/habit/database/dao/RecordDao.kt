@@ -6,7 +6,7 @@ import com.hirauchi.habit.database.entity.Record
 
 @Dao
 interface RecordDao {
-    @Query("SELECT * FROM record WHERE habitId = :habitId ORDER BY date ASC")
+    @Query("SELECT * FROM record WHERE habitId = :habitId ORDER BY date DESC")
     fun getLiveDataRecordList(habitId: Int): LiveData<List<Record>>
 
     @Query("SELECT * FROM record WHERE habitId = :habitId ORDER BY date DESC")
